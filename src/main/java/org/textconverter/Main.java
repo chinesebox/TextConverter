@@ -1,7 +1,6 @@
 package org.textconverter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,23 +10,25 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.textconverter.strategy.OutputFacade;
+import org.textconverter.strategy.OutputStrategyType;
+import org.textconverter.utils.Constants;
+
 public class Main {
 
-	private static final String CSV_DELIMITER = ",";
-	
-	private static final String TMP_FILE = "output.txt";
+
 
 	public static void main(String[] args) throws IOException, Exception {
 		System.out.println("Enter output strategy: ");
-		System.out.println("[1] XML: ");
-		System.out.println("[2] CSV: ");
+		System.out.println("[1] XML");
+		System.out.println("[2] CSV");
 
 		Scanner strategyTypeScanner = new Scanner(System.in);
-		String in = "";
-		while (strategyTypeScanner.hasNext() && ((in = strategyTypeScanner.next()).equals("1") && in.equals("2"))) {
+		int in = 0;
+		while (strategyTypeScanner.hasNext() && ((in = strategyTypeScanner.nextInt()) == 1) && in == 2) {
 		}
 		
-		System.out.println("Use CTRL + Z to close input");
+		System.out.println("Use CTRL + Z to close input stream");
 		System.out.println("Enter text: ");
 		Scanner inputTextScanner = new Scanner(System.in);
 		
@@ -35,19 +36,11 @@ public class Main {
 		
 		strategyTypeScanner.close();
 		inputTextScanner.close();
-
-		switch (in) {
-		case "1": {
-			printXML();
-			break;
-		}
-		case "2": {
-			printCSV(max);
-			break;
-		}
-		default:
-			throw new Exception("No option valaibe");
-		}
+		
+		OutputFacade outputFacade = new OutputFacade(max);
+		File inFile = new File(Constants.TMP_FILE);
+		Scanner sc = new Scanner(inFile);
+		outputFacade.print(OutputStrategyType.getStrategyType(in), sc);
 			
 		System.out.println();
 		System.out.println("END");
@@ -61,7 +54,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	private static PrintWriter getPrintWriter() throws IOException {
-		File outFile = new File(TMP_FILE);
+		File outFile = new File(Constants.TMP_FILE);
 		FileWriter fWriter = new FileWriter(outFile);
 		PrintWriter pWriter = new PrintWriter(fWriter);
 		return pWriter;
@@ -98,63 +91,6 @@ public class Main {
 		pw.close();
 		
 		return max;
-	}
-	
-	/**
-	 * Converting tmp file to XML
-	 * 
-	 * @throws FileNotFoundException
-	 */
-	private static void printXML() throws FileNotFoundException {
-		File inFile = new File(TMP_FILE);
-		Scanner sc = new Scanner(inFile);
-		System.out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-		System.out.println("<text>");
-		System.out.println("	<sentence>");
-		while (sc.hasNextLine()) {
-			String word = sc.nextLine();
-			if("".equals(word)) {
-				if(sc.hasNextLine()) {
-					System.out.println("	</sentence>");
-					System.out.println("	<sentence>");
-				}
-				continue;
-			}
-			System.out.println("		<word>" + word + "</word>");
-		}
-		System.out.println("	</sentence>");
-		System.out.println("</text>");
-		sc.close();
-	}
-
-	/**
-	 * Converting tmp file to CSV
-	 * 
-	 * @param max
-	 * @throws FileNotFoundException
-	 */
-	private static void printCSV(int max) throws FileNotFoundException {
-		File inFile = new File(TMP_FILE);
-		Scanner sc = new Scanner(inFile);
-		System.out.println();
-		for(int i = 0; i < max; i++) {
-			System.out.print(CSV_DELIMITER + " Word " + (i + 1));
-		}
-		int sentenceCount = 0;
-		System.out.println();
-		System.out.print("SENTENCE " + ++sentenceCount);
-		while (sc.hasNextLine()) {
-			String word = sc.nextLine();
-			if("".equals(word)) {
-				if(sc.hasNextLine()) {
-					System.out.println();
-					System.out.print("SENTENCE " + ++sentenceCount);
-				}
-				continue;
-			}
-			System.out.print(CSV_DELIMITER + " " + word);
-		}
-		sc.close();
 	}
 
 }

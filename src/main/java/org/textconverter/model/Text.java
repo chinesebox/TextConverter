@@ -1,4 +1,4 @@
-package org.textconverter;
+package org.textconverter.model;
 
 import java.util.ArrayList;
 import java.util.List;
