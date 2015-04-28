@@ -16,22 +16,33 @@ public class XmlStrategy implements OutputStrategy {
 	 * @throws FileNotFoundException
 	 */
 	public void print(Scanner sc) throws FileNotFoundException {
-		System.out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-		System.out.println("<text>");
-		System.out.println("	<sentence>");
+		println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+		println("<text>");
+		println("\t<sentence>");
 		while (sc.hasNextLine()) {
 			String word = sc.nextLine();
 			if("".equals(word)) {
 				if(sc.hasNextLine()) {
-					System.out.println("	</sentence>");
-					System.out.println("	<sentence>");
+					println("\t</sentence>");
+					println("\t<sentence>");
 				}
 				continue;
 			}
-			System.out.println("		<word>" + word + "</word>");
+			println("\t\t<word>" + word + "</word>");
 		}
-		System.out.println("	</sentence>");
-		System.out.println("</text>");
-		sc.close();
+		println("\t</sentence>");
+		println("</text>");
+	}
+	
+	protected void print(String string) {
+		System.out.print(string);
+	}
+	
+	protected void println() {
+		System.out.println();
+	}
+	
+	protected void println(String string) {
+		System.out.println(string);
 	}
 }

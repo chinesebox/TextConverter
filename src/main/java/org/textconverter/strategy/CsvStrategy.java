@@ -1,6 +1,7 @@
 package org.textconverter.strategy;
 
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 import org.textconverter.utils.Constants;
@@ -17,7 +18,6 @@ public class CsvStrategy implements OutputStrategy {
 	public CsvStrategy(int maxWordsInSentence) {
 		this.maxWordsInSentence = maxWordsInSentence;
 	}
-	
 
 	/**
 	 * Converting tmp file to CSV
@@ -25,25 +25,35 @@ public class CsvStrategy implements OutputStrategy {
 	 * @throws FileNotFoundException
 	 */
 	public void print(Scanner sc) throws FileNotFoundException {
-		System.out.println();
 		for(int i = 0; i < maxWordsInSentence; i++) {
-			System.out.print(Constants.CSV_DELIMITER + " Word " + (i + 1));
+			print(Constants.CSV_DELIMITER + " Word " + (i + 1));
 		}
 		int sentenceCount = 0;
-		System.out.println();
-		System.out.print("SENTENCE " + ++sentenceCount);
+		println();
+		print("Sentence " + ++sentenceCount);
 		while (sc.hasNextLine()) {
 			String word = sc.nextLine();
 			if("".equals(word)) {
 				if(sc.hasNextLine()) {
-					System.out.println();
-					System.out.print("SENTENCE " + ++sentenceCount);
+					println();
+					print("Sentence " + ++sentenceCount);
 				}
 				continue;
 			}
-			System.out.print(Constants.CSV_DELIMITER + " " + word);
+			print(Constants.CSV_DELIMITER + " " + word);
 		}
-		sc.close();
+	}
+	
+	protected void println() {
+		System.out.println();
+	}
+	
+	protected void print(String string) {
+		System.out.print(string);
+	}
+	
+	protected void println(String string) {
+		System.out.println(string);
 	}
 	
 }
