@@ -4,5 +4,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public interface InputStrategy {
-	int write(Scanner inputTextScanner) throws IOException;
+	
+	void execute(Scanner inputTextScanner) throws IOException;
+	
+	int getMaxWordsInSentence();
 }

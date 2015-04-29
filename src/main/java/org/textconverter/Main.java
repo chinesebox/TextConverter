@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.textconverter.instrategies.InputContext;
 import org.textconverter.instrategies.InputFactory;
 import org.textconverter.instrategies.InputStrategyType;
 import org.textconverter.outstrategies.OutputFacade;
@@ -38,7 +39,9 @@ public class Main {
 
 	private static void printOutput(OutputStrategyType outputStrategyType, Scanner inputTextScanner) throws Exception {
 		InputFactory inFactory = new InputFactory();
-		int maxWordsInSentence = inFactory.getInputContext(InputStrategyType.FILE).write(inputTextScanner);
+		InputContext inputStrategy = inFactory.getInputContext(InputStrategyType.FILE);
+		inputStrategy.execute(inputTextScanner);
+		int maxWordsInSentence = inputStrategy.getMaxWordsInSentence();
 		OutputFacade outputFacade = new OutputFacade(maxWordsInSentence);
 		File inFile = new File(Constants.TMP_FILE);
 		Scanner sc = new Scanner(inFile);

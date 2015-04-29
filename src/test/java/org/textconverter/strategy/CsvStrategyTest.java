@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.textconverter.instrategies.InputContext;
 import org.textconverter.instrategies.InputFactory;
 import org.textconverter.instrategies.InputStrategyType;
 import org.textconverter.outstrategies.OutputContext;
@@ -45,9 +46,11 @@ public class CsvStrategyTest {
 	public void readingBigFileMemorySafe() throws Exception {
 		File file = new File("inputTextTest.txt");
 		Scanner inputTextScanner = new Scanner(file);
-		int max = inputFactory.getInputContext(InputStrategyType.FILE).write(inputTextScanner);
+		InputContext inputContext = inputFactory.getInputContext(InputStrategyType.FILE);
+		inputContext.execute(inputTextScanner);
+		int maxWordsInSentence = inputContext.getMaxWordsInSentence();
 		PrintWriter pw = FileUtil.getPrintWriter("csv.out");
-		OutputContext oc = new OutputContext(new CsvStrategyMock(max, pw));
+		OutputContext oc = new OutputContext(new CsvStrategyMock(maxWordsInSentence, pw));
 		File inFile = new File(Constants.TMP_FILE);
 		Scanner sc = new Scanner(inFile);
 		oc.print(sc);
@@ -61,9 +64,11 @@ public class CsvStrategyTest {
 	public void csvExpectedOutput() throws Exception {
 		File file = new File("inputTextTest.txt");
 		Scanner inputTextScanner = new Scanner(file);
-		int max = inputFactory.getInputContext(InputStrategyType.FILE).write(inputTextScanner);
+		InputContext inputContext = inputFactory.getInputContext(InputStrategyType.FILE);
+		inputContext.execute(inputTextScanner);
+		int maxWordsInSentence = inputContext.getMaxWordsInSentence();
 		PrintWriter pw = FileUtil.getPrintWriter("csv.out");
-		OutputContext oc = new OutputContext(new CsvStrategyMock(max, pw));
+		OutputContext oc = new OutputContext(new CsvStrategyMock(maxWordsInSentence, pw));
 		File inFile = new File(Constants.TMP_FILE);
 		Scanner sc = new Scanner(inFile);
 		oc.print(sc);
@@ -105,7 +110,8 @@ public class CsvStrategyTest {
 				" Cinderella  likes shoes.. "
 				);
 		
-		inputFactory.getInputContext(InputStrategyType.FILE).write(inputTextScanner);
+		InputContext inputContext = inputFactory.getInputContext(InputStrategyType.FILE);
+		inputContext.execute(inputTextScanner);
 		PrintWriter pw = FileUtil.getPrintWriter("xml.out");
 		OutputContext oc = new OutputContext(new XmlStrategyMock(pw));
 		File inFile = new File(Constants.TMP_FILE);

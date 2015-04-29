@@ -22,7 +22,11 @@ public class InputContext {
 	 * Generated input
 	 * @throws IOException 
 	 */
-	public int write(Scanner sc) throws IOException {
-		return inputStrategy.write(sc);
+	public void execute(Scanner sc) throws IOException {
+		inputStrategy.execute(sc);
+	}
+	
+	public int getMaxWordsInSentence() {
+		return inputStrategy.getMaxWordsInSentence();
 	}
 }
