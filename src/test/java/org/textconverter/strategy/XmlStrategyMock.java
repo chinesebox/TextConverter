@@ -3,6 +3,8 @@ package org.textconverter.strategy;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.textconverter.outstrategies.XmlStrategy;
+
 public class XmlStrategyMock extends XmlStrategy {
 	
 	private PrintWriter pw;

@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.textconverter.strategy.OutputFacade;
-import org.textconverter.strategy.OutputStrategyType;
+import org.textconverter.instrategies.InputFactory;
+import org.textconverter.instrategies.InputStrategyType;
+import org.textconverter.outstrategies.OutputFacade;
+import org.textconverter.outstrategies.OutputStrategyType;
 import org.textconverter.utils.Constants;
-import org.textconverter.utils.FileUtil;
 
 public class Main {
 
@@ -36,7 +37,8 @@ public class Main {
 	}
 
 	private static void printOutput(OutputStrategyType outputStrategyType, Scanner inputTextScanner) throws Exception {
-		int maxWordsInSentence = FileUtil.write(inputTextScanner);
+		InputFactory inFactory = new InputFactory();
+		int maxWordsInSentence = inFactory.getInputContext(InputStrategyType.FILE).write(inputTextScanner);
 		OutputFacade outputFacade = new OutputFacade(maxWordsInSentence);
 		File inFile = new File(Constants.TMP_FILE);
 		Scanner sc = new Scanner(inFile);

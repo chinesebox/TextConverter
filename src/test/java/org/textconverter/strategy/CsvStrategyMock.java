@@ -1,10 +1,9 @@
 package org.textconverter.strategy;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 
-import org.textconverter.utils.FileUtil;
+import org.textconverter.outstrategies.CsvStrategy;
 
 public class CsvStrategyMock extends CsvStrategy {
 	

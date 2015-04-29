@@ -1,4 +1,4 @@
-package org.textconverter.strategy;
+package org.textconverter.outstrategies;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;

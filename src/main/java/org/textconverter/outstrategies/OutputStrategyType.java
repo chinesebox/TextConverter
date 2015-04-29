@@ -1,4 +1,4 @@
-package org.textconverter.strategy;
+package org.textconverter.outstrategies;
 
 public enum OutputStrategyType {
 	

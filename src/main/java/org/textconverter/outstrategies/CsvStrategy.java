@@ -1,7 +1,6 @@
-package org.textconverter.strategy;
+package org.textconverter.outstrategies;
 
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 import org.textconverter.utils.Constants;
